@@ -1,11 +1,17 @@
-
-
 {
   "name": "faah-sound",
   "displayName": "Faah Sound - Error Alert",
   "description": "Plays a 'faah' sound when Python or Jupyter notebook errors are detected",
   "version": "1.0.0",
   "publisher": "pavan-sai-g",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Pavan-Samanth/faah-sound.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Pavan-Samanth/faah-sound/issues"
+  },
+  "homepage": "https://github.com/Pavan-Samanth/faah-sound#readme",
 
   "engines": {
     "vscode": "^1.60.0"

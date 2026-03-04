@@ -1,0 +1,61 @@
+
+
+{
+  "name": "faah-sound",
+  "displayName": "Faah Sound - Error Alert",
+  "description": "Plays a 'faah' sound when Python or Jupyter notebook errors are detected",
+  "version": "1.0.0",
+  "publisher": "pavan-sai-g",
+
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+
+  "categories": ["Other"],
+  "keywords": ["sound", "error", "python", "jupyter", "alert"],
+  "icon": "icon.png",
+
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:faah-sound.testSound",
+    "onCommand:faah-sound.runPython"
+  ],
+
+  "main": "./out/extension.js",
+
+  "contributes": {
+    "commands": [
+      {
+        "command": "faah-sound.testSound",
+        "title": "Faah Sound: Test Sound"
+      },
+      {
+        "command": "faah-sound.runPython",
+        "title": "Faah Sound: Run Python File"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "faah-sound.runPython",
+          "when": "resourceExtname == .py",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package",
+    "vscode:prepublish": "npm run compile"
+  },
+
+  "devDependencies": {
+    "@types/node": "^18.19.0",
+    "@types/vscode": "^1.60.0",
+    "@vscode/vsce": "^2.0.0",
+    "typescript": "^5.0.0"
+  }
+}

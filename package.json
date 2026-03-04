@@ -1,6 +1,6 @@
 {
-  "name": "faah-sound",
-  "displayName": "Faah Sound - Error Alert",
+  "name": "faaaah-error-alert",
+  "displayName": "Faah Sound - Error Alert - Python",
   "description": "Plays a 'faah' sound when Python or Jupyter notebook errors are detected",
   "version": "1.0.0",
   "publisher": "pavan-sai-g",

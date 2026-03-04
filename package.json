@@ -4,6 +4,7 @@
   "description": "Plays a 'faah' sound when Python or Jupyter notebook errors are detected",
   "version": "1.0.0",
   "publisher": "pavan-sai-g",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Pavan-Samanth/faah-sound.git"

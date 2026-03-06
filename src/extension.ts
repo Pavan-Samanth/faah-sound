@@ -2,6 +2,9 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import { spawn } from 'child_process';
 
+let lastErrorCell: string | undefined;
+let lastErrorMessage: string | undefined;
+
 let statusBarItem: vscode.StatusBarItem;
 let lastSoundTime = 0;
 const COOLDOWN = 1200;
@@ -86,34 +89,59 @@ async function runPythonFile(context: vscode.ExtensionContext) {
   });
 }
 
-/* ================================
-   JUPYTER ERROR DETECTION
-================================ */
+
 function watchNotebook(context: vscode.ExtensionContext) {
+
   context.subscriptions.push(
     vscode.workspace.onDidChangeNotebookDocument(event => {
 
       for (const change of event.cellChanges) {
 
         const cell = change.cell;
+
         if (!cell.outputs || cell.outputs.length === 0) continue;
 
+        let errorMessage = '';
+
         const hasError = cell.outputs.some(output =>
-          output.items.some(item =>
-            item.mime?.toLowerCase().includes('error') ||
-            item.mime?.toLowerCase().includes('traceback')
-          )
+          output.items.some(item => {
+
+            const text = new TextDecoder().decode(item.data);
+            errorMessage += text;
+
+            return (
+              item.mime?.toLowerCase().includes('error') ||
+              item.mime?.toLowerCase().includes('traceback')
+            );
+          })
         );
 
-        if (hasError) {
-          playSound(context);
-          break;
+        const cellId = cell.document.uri.toString();
+
+        // Reset state if no error
+        if (!hasError) {
+          lastErrorCell = undefined;
+          lastErrorMessage = undefined;
+          continue;
         }
+
+        // Prevent duplicate sound only if SAME error in SAME cell
+        if (
+          lastErrorCell === cellId &&
+          lastErrorMessage === errorMessage
+        ) {
+          continue;
+        }
+
+        lastErrorCell = cellId;
+        lastErrorMessage = errorMessage;
+
+        playSound(context);
+        break;
       }
     })
   );
 }
-
 /* ================================
    ACTIVATE
 ================================ */
